@@ -1,18 +1,20 @@
 package edu.cs.ubbcluj;
 
-public class LogAnalyzer {
+public class LogAnalyzer implements FileExtMgr{
 
     public static final String END_NAME = "slr";
+    private FileExtMgr fileExtMgr;
 
-    public boolean isValidLogFileName(String fileName){
-        /*if(fileName.length() < END_NAME.length()){
-            throw new IllegalArgumentException("Name is to short.");
-        }*/
-        return fileName.endsWith(END_NAME) ? true : false;
+
+    public boolean isValidLogFileName(String fileName) {
+        if(fileName.isEmpty()){
+            throw new IllegalArgumentException("File is empty");
+        }
+        return fileExtMgr != null && fileExtMgr.isValidLogFileName(fileName);
     }
 
-    public static void main(String[] args) {
-        LogAnalyzer validFileName = new LogAnalyzer();
-        System.out.println(validFileName.isValidLogFileName("valamislr"));
+    public void setFileExtMgr(FileExtMgr fileExtMgr){
+        this.fileExtMgr = fileExtMgr;
     }
+
 }

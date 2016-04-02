@@ -1,42 +1,24 @@
 package edu.cs.ubbcluj;
 
 import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * Created by Zete-Örs on 2016.03.11..
  */
-@RunWith(Parameterized.class)
 public class ValidFileNameTest {
 
-    public String fInput;
-    public boolean fExpected;
-    LogAnalyzer logAnalyzer;
+    private static final String validFileName = "dasd.slr";
+    private static final String invalidFileName = "dasd.sl";
 
-    public ValidFileNameTest(String fInput, Boolean fExpected){
-        this.fInput = fInput;
-        this.fExpected = fExpected;
-    }
-
-
-    @Parameterized.Parameters
-    public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][]{
-                {"", false},
-                {"sl", false},
-                {"slr", true},
-                {"akarmislr", true},
-                {"valamislrr", false}
-        });
-    }
+    private LogAnalyzer logAnalyzer;
+    private FakeFileExtMgr fileExtMgr;
 
     @Before
     public void setUp() throws Exception{
         logAnalyzer = new LogAnalyzer();
+        fileExtMgr = new FakeFileExtMgr();
+        logAnalyzer.setFileExtMgr(fileExtMgr);
     }
     @After
     public void tearDown() throws Exception{
@@ -45,21 +27,13 @@ public class ValidFileNameTest {
 
     @Test
     public void isValidFileNameReturnTrue(){
-        Assert.assertEquals(fExpected, logAnalyzer.isValidLogFileName(fInput));
+        fileExtMgr.setValid(true);
+        Assert.assertEquals(validFileName + " valid", logAnalyzer.isValidLogFileName(invalidFileName), true);
     }
 
-    @Ignore
     @Test(expected = IllegalArgumentException.class)
-    public void isValidLogFileNameToShortExceptionThrown(){
-
-        try {
-            logAnalyzer.isValidLogFileName("jghh");
-            Assert.fail("Expected exception to be thrown");
-        }catch (IllegalArgumentException e){
-
-        }
+    public void isValidLogFileName_Empty_ExceptionThrow() {
+        logAnalyzer.isValidLogFileName("");
     }
-
-
 
 }
