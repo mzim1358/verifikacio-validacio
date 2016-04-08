@@ -11,16 +11,12 @@ public class ValidFileNameTest {
     private static final String validFileName = "dasd.slr";
     private static final String invalidFileName = "dasd.sl";
 
-    private LogAnalyzer logAnalyzer;
     private FakeFileExtMgr fileExtMgr;
-    private FileMgrFactory fileMgrFactory;
-
+    private TestableLogAnalyzer testableLogAnalyzer;
     @Before
     public void setUp() throws Exception{
-        fileMgrFactory = FileMgrFactory.getINSTANCE();
-        logAnalyzer = new LogAnalyzer();
+
         fileExtMgr = new FakeFileExtMgr();
-        fileMgrFactory.setFileMgr(fileExtMgr);
         //logAnalyzer.setFileExtMgr(fileExtMgr);
     }
     @After
@@ -32,7 +28,8 @@ public class ValidFileNameTest {
     public void isValidFileNameReturnTrue(){
 
         fileExtMgr.setValid(true);
-        Assert.assertEquals(true, logAnalyzer.isValidLogFileName(validFileName));
+        testableLogAnalyzer = new TestableLogAnalyzer(fileExtMgr);
+        Assert.assertEquals(true, testableLogAnalyzer.isValidLogFileName(validFileName));
     }
 /*
     @Test(expected = IllegalArgumentException.class)
