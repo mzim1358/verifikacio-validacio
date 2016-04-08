@@ -6,7 +6,12 @@ public class LogAnalyzer implements FileExtMgr{
     private FileExtMgr fileExtMgr;
 
 
+    public LogAnalyzer(){
+        fileExtMgr = FileMgrFactory.getINSTANCE().createMgr();
+    }
+
     public boolean isValidLogFileName(String fileName) {
+        fileExtMgr = FileMgrFactory.getINSTANCE().createMgr();
         if(fileName.isEmpty()){
             throw new IllegalArgumentException("File is empty");
         }

@@ -13,12 +13,15 @@ public class ValidFileNameTest {
 
     private LogAnalyzer logAnalyzer;
     private FakeFileExtMgr fileExtMgr;
+    private FileMgrFactory fileMgrFactory;
 
     @Before
     public void setUp() throws Exception{
+        fileMgrFactory = FileMgrFactory.getINSTANCE();
         logAnalyzer = new LogAnalyzer();
         fileExtMgr = new FakeFileExtMgr();
-        logAnalyzer.setFileExtMgr(fileExtMgr);
+        fileMgrFactory.setFileMgr(fileExtMgr);
+        //logAnalyzer.setFileExtMgr(fileExtMgr);
     }
     @After
     public void tearDown() throws Exception{
@@ -27,13 +30,14 @@ public class ValidFileNameTest {
 
     @Test
     public void isValidFileNameReturnTrue(){
-        fileExtMgr.setValid(true);
-        Assert.assertEquals(validFileName + " valid", logAnalyzer.isValidLogFileName(invalidFileName), true);
-    }
 
+        fileExtMgr.setValid(true);
+        Assert.assertEquals(true, logAnalyzer.isValidLogFileName(validFileName));
+    }
+/*
     @Test(expected = IllegalArgumentException.class)
     public void isValidLogFileName_Empty_ExceptionThrow() {
         logAnalyzer.isValidLogFileName("");
     }
-
+*/
 }
